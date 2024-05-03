@@ -26,7 +26,8 @@ def etiquetar(carpeta_entrada):
             folder_name = "personasCropped"
         elif tag == "A":
             folder_name = "animalesCropped"
-        elif tag == "R" = "ruidoCropped"
+        elif tag == "R":
+            folder_name = "ruidoCropped"
         folder = f"vale_etiquetas/{folder_name}"
 
         if not os.path.exists(folder):

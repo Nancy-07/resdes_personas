@@ -21,7 +21,7 @@ def dividir_imagen(imagen, ancho_segmento, alto_segmento, carpeta_destino, numer
         for x in range(0, ancho_total, ancho_segmento):
             cuadro = (x, y, x + ancho_segmento, y + alto_segmento)
             segmento = img.crop(cuadro)
-            nombre_segmento = f"empty{numero_de_imagen}_{contador}.png"
+            nombre_segmento = f"nopeople{numero_de_imagen}_{contador}.jpg"
             segmento.save(os.path.join(carpeta_destino, nombre_segmento))
             contador += 1
 
@@ -35,9 +35,9 @@ def procesar_carpeta_imagenes(carpeta_origen, ancho_segmento, alto_segmento, car
             
             dividir_imagen(ruta_imagen, ancho_segmento, alto_segmento, carpeta_destino, indice)
 
-carpeta_origen = "images/Empty city"
-ancho_segmento = 100
-alto_segmento = 100
-carpeta_destino = "naomi_segmentos2"
+carpeta_origen = "imag/without_people"
+ancho_segmento = 200
+alto_segmento = 200
+carpeta_destino = "nancy_segmentos2"
 
 procesar_carpeta_imagenes(carpeta_origen, ancho_segmento, alto_segmento, carpeta_destino)

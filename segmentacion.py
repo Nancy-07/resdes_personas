@@ -2,17 +2,17 @@ from PIL import Image
 import os
 
 def limpiar_carpeta(carpeta):
-    for archivo in os.listdir(carpeta):
-        ruta_archivo = os.path.join(carpeta, archivo)
-        if os.path.isfile(ruta_archivo):
-            os.remove(ruta_archivo)
-
-def dividir_imagen(imagen, ancho_segmento, alto_segmento, carpeta_destino):
-    if not os.path.exists(carpeta_destino):
-        os.makedirs(carpeta_destino)
+    """Limpia la carpeta destino borrando todos los archivos existentes."""
+    if not os.path.exists(carpeta):
+        os.makedirs(carpeta)
     else:
-        limpiar_carpeta(carpeta_destino)
+        for archivo in os.listdir(carpeta):
+            ruta_archivo = os.path.join(carpeta, archivo)
+            if os.path.isfile(ruta_archivo):
+                os.remove(ruta_archivo)
 
+def dividir_imagen(imagen, ancho_segmento, alto_segmento, carpeta_destino, numero_de_imagen):
+    """Divide una imagen en segmentos y los guarda en la carpeta destino."""
     img = Image.open(imagen)
     ancho_total, alto_total = img.size
 
@@ -21,13 +21,23 @@ def dividir_imagen(imagen, ancho_segmento, alto_segmento, carpeta_destino):
         for x in range(0, ancho_total, ancho_segmento):
             cuadro = (x, y, x + ancho_segmento, y + alto_segmento)
             segmento = img.crop(cuadro)
-            segmento.save(os.path.join(carpeta_destino, f"segmento_{contador}.png"))
+            nombre_segmento = f"empty{numero_de_imagen}_{contador}.png"
+            segmento.save(os.path.join(carpeta_destino, nombre_segmento))
             contador += 1
 
+def procesar_carpeta_imagenes(carpeta_origen, ancho_segmento, alto_segmento, carpeta_destino):
+    """Procesa todas las imágenes en la carpeta origen, dividiéndolas en segmentos."""
+    limpiar_carpeta(carpeta_destino)
+    
+    for indice, archivo in enumerate(os.listdir(carpeta_origen), start=1):
+        if archivo.endswith(".jpg") or archivo.endswith(".png"):
+            ruta_imagen = os.path.join(carpeta_origen, archivo)
+            
+            dividir_imagen(ruta_imagen, ancho_segmento, alto_segmento, carpeta_destino, indice)
 
-imagen_original = "17.jpg"
+carpeta_origen = "images/Empty city"
 ancho_segmento = 100
 alto_segmento = 100
-carpeta_destino = "segmentos"
+carpeta_destino = "naomi_segmentos2"
 
-dividir_imagen(imagen_original, ancho_segmento, alto_segmento, carpeta_destino)
+procesar_carpeta_imagenes(carpeta_origen, ancho_segmento, alto_segmento, carpeta_destino)

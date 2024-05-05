@@ -25,19 +25,11 @@ def etiquetar(carpeta_entrada):
         elif tag =="P":
             folder_name = "personasCropped1"
         elif tag == "A":
-<<<<<<< Updated upstream
             folder_name = "animalesCropped"
         elif tag == "R":
             folder_name = "ruidoCropped"
             
         folder = f"vale_etiquetas/{folder_name}"
-=======
-            folder_name = "animalesCropped1"
-        elif tag == "R":
-            folder_name = "ruidoCropped1"
-            
-        folder = f"{folder_name}"
->>>>>>> Stashed changes
 
         if not os.path.exists(folder):
             os.makedirs(folder)
@@ -50,9 +42,5 @@ def etiquetar(carpeta_entrada):
         print(f"Imagen {image_name} guardada en la carpeta {folder}")
         clear_output(wait=True)
 
-<<<<<<< Updated upstream
 
 etiquetar("vale_segmentos2")
-=======
-etiquetar("naomi_segmentos")
->>>>>>> Stashed changes

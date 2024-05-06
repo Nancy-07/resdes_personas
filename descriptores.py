@@ -45,40 +45,52 @@ def calcularHistograma(ruta_imagen, detector, kmedias):
         histograma, _ = np.histogram(palabras_visuales, bins=range(kmedias.n_clusters + 1))
         return histograma
 
-def main():
+def main(ruta_folders, csv_file):
     detector = cv2.SIFT_create()
-    ruta_folder = "animales"
-    descriptores_global, ruta_imagenes = extraerDescriptoresGlobal(ruta_folder, detector)
+    all_descriptors = []
+    all_labels = []
 
-    # Clusters de características
-    kmedias = KMeans(n_clusters=13)
-    kmedias.fit(descriptores_global)
-    # np.save("visual_vocabulary.npy", kmedias.cluster_centers_)
+    for etiqueta, ruta_folder in enumerate(ruta_folders, start=1):
+        descriptores_global, ruta_imagenes = extraerDescriptoresGlobal(ruta_folder, detector)
 
-    final_descriptores = []
-    visual_histogramas = []
+        # Clusters de características
+        kmedias = KMeans(n_clusters=13)
+        kmedias.fit(descriptores_global)
 
-    for ruta_imagen in ruta_imagenes:
-        histograma = calcularHistograma(ruta_imagen, detector, kmedias)
-        if histograma is not None:
-            momentos_hu = momentosHu(ruta_imagen)
-            momentos_hu_flat = momentos_hu.flatten()  # Convertir a unidimensional
+        final_descriptores = []
 
-            # Calcular histogramaas TF-IDF
-            transformer = TfidfTransformer()
-            histograma_tfidf = transformer.fit_transform([histograma]).toarray()[0]
-            
-            # Juntar momentos de Hu con histogramaa TF-IDF
-            descriptores_combinados = np.concatenate((momentos_hu_flat, histograma_tfidf))
-            final_descriptores.append(descriptores_combinados)
-            
+        for ruta_imagen in ruta_imagenes:
+            histograma = calcularHistograma(ruta_imagen, detector, kmedias)
+            if histograma is not None:
+                momentos_hu = momentosHu(ruta_imagen)
+                momentos_hu_flat = momentos_hu.flatten()  # Convertir a unidimensional
+
+                # Calcular histogramas TF-IDF
+                transformer = TfidfTransformer()
+                histograma_tfidf = transformer.fit_transform([histograma]).toarray()[0]
+
+                # Juntar momentos de Hu con histogramas TF-IDF
+                descriptores_combinados = np.concatenate((momentos_hu_flat, histograma_tfidf))
+                final_descriptores.append(descriptores_combinados)
+                all_labels.append(etiqueta)
+
+        all_descriptors.extend(final_descriptores)
+
     # Se crea el archivo CSV
-    csv_file = "descriptores_animales.csv"
     with open(csv_file, mode='w', newline='') as file:
         writer = csv.writer(file)
-        # writer.writerow(["ruta_imagen"] + [f"descriptor_{i}" for i in range(len(final_descriptores[0]))])
-        for ruta_imagen, descriptor in zip(ruta_imagenes, final_descriptores):
-            writer.writerow(list(map(str, descriptor)) + ["animal"])
+        for descriptor, label in zip(all_descriptors, all_labels):
+            writer.writerow(list(map(str, descriptor)) + [label])
+
+# 1 - animales
+# 2 - ciudad
+# 3 - personas
+
+# Define las carpetas y etiquetas
+ruta_folders = ["etiquetado_final/animales", "etiquetado_final/ciudad", "etiquetado_final/personas"]
+csv_file = "descriptores/descriptores_completos.csv"
+
+# Ejecuta la función principal
+main(ruta_folders, csv_file)
 
 
-main()

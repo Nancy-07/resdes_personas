@@ -50,7 +50,7 @@ def main(ruta_folders, csv_file):
     all_descriptors = []
     all_labels = []
 
-    for etiqueta, ruta_folder in enumerate(ruta_folders, start=1):
+    for etiqueta, ruta_folder in enumerate(ruta_folders, start=0):
         descriptores_global, ruta_imagenes = extraerDescriptoresGlobal(ruta_folder, detector)
 
         # Clusters de características
@@ -82,13 +82,13 @@ def main(ruta_folders, csv_file):
         for descriptor, label in zip(all_descriptors, all_labels):
             writer.writerow(list(map(str, descriptor)) + [label])
 
-# 1 - animales
-# 2 - ciudad
-# 3 - personas
+# 0 - animales
+# 1 - ciudad
+# 2 - personas
 
 # Define las carpetas y etiquetas
 ruta_folders = ["etiquetado_final/animales", "etiquetado_final/ciudad", "etiquetado_final/personas"]
-csv_file = "descriptores/descriptores_completos.csv"
+csv_file = "descriptores/descriptores_completos2.csv"
 
 # Ejecuta la función principal
 main(ruta_folders, csv_file)

@@ -70,7 +70,7 @@ def main(ruta_folders, csv_file):
                 histograma_tfidf = transformer.fit_transform([histograma]).toarray()[0]
 
                 # Juntar momentos de Hu con histogramas TF-IDF
-                descriptores_combinados = np.concatenate((momentos_hu_flat, histograma_tfidf))
+                descriptores_combinados = np.concatenate((momentos_hu_flat, histograma))
                 final_descriptores.append(descriptores_combinados)
                 all_labels.append(etiqueta)
 
@@ -88,7 +88,7 @@ def main(ruta_folders, csv_file):
 
 # Define las carpetas y etiquetas
 ruta_folders = ["etiquetado_final/animales", "etiquetado_final/ciudad", "etiquetado_final/personas"]
-csv_file = "descriptores/descriptores_completos2.csv"
+csv_file = "descriptores/descriptores_completos.csv"
 
 # Ejecuta la función principal
 main(ruta_folders, csv_file)

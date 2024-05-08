@@ -35,9 +35,9 @@ def procesar_carpeta_imagenes(carpeta_origen, ancho_segmento, alto_segmento, car
             
             dividir_imagen(ruta_imagen, ancho_segmento, alto_segmento, carpeta_destino, indice)
 
-carpeta_origen = "imag/without_people"
+carpeta_origen = "new_images/uncropped"
 ancho_segmento = 200
 alto_segmento = 200
-carpeta_destino = "nancy_segmentos2"
+carpeta_destino = "new_images/cropped"
 
 procesar_carpeta_imagenes(carpeta_origen, ancho_segmento, alto_segmento, carpeta_destino)

@@ -87,8 +87,8 @@ def main(ruta_folders, csv_file):
 # 2 - personas
 
 # Define las carpetas y etiquetas
-ruta_folders = ["etiquetado_final/animales", "etiquetado_final/ciudad", "etiquetado_final/personas"]
-csv_file = "descriptores/descriptores_completos.csv"
+ruta_folders = ["etiquetado_800/animales", "etiquetado_800/ciudad", "etiquetado_800/personas"]
+csv_file = "descriptores/descriptores_completos_800.csv"
 
 # Ejecuta la función principal
 main(ruta_folders, csv_file)

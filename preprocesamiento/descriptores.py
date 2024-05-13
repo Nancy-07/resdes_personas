@@ -76,7 +76,7 @@ def main(ruta_folders, csv_file):
                 histograma_tfidf = transformer.fit_transform([histograma]).toarray()[0]
 
                 # Juntar momentos de Hu con histogramas TF-IDF
-                descriptores_combinados = np.concatenate((momentos_hu_flat, histograma))
+                descriptores_combinados = np.concatenate((momentos_hu_flat, histograma_tfidf))
                 descriptores_finales.append(descriptores_combinados)
                 etiquetas_globales.append(etiqueta)
 
